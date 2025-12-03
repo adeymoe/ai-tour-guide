@@ -1,0 +1,15 @@
+# Ignore Python virtual environment
+.venv/
+
+# Ignore cache files
+__pycache__/
+*.pyc
+
+# Ignore Streamlit specific files
+.streamlit/
+
+# Ignore the .env file located inside the notebook directory
+notebook/.env
+
+notebook/cache/
+notebook/city_cache/
