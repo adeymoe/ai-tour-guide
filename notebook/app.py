@@ -159,7 +159,7 @@ body {
 .section-title {
     font-size: 1.6rem;
     font-weight: 800;
-    color: #343A40;
+    color: white;
     margin-bottom: 1rem;
     border-bottom: 3px solid #007BFF;
     padding-bottom: 0.3rem;
@@ -191,7 +191,7 @@ input[type="text"], .stTextInput>div>input {
     border: 1.5px solid #CED4DA;
     padding: 0.5rem 0.75rem;
     font-size: 1rem;
-    color: #343A40;
+    color: white;
     transition: border-color 0.3s ease;
 }
 
@@ -633,53 +633,14 @@ def main():
         with map_col:
             st.markdown("<div class='section-title'>🗺️ Your Tour Map</div>", unsafe_allow_html=True)
 
-            # Build and show map
-            tour_map = create_tour_map(
-                st.session_state.G,
-                st.session_state.route_nodes,
-                st.session_state.stops_info,
-                st.session_state.city_name,
-                highlight_stop=st.session_state.current_stop
-            )
-
-            st_folium(tour_map, width=700, height=700, key=f"map_{st.session_state.current_stop}")
-
-            # Stats
-            st.markdown("---")
-            stats_col1, stats_col2, stats_col3 = st.columns(3)
-            with stats_col1:
-                st.markdown(f"""
-                    <div class="stats-box">
-                        <h3>📍 {len(st.session_state.stops)}</h3>
-                        <p>Total Stops</p>
-                    </div>
-                """, unsafe_allow_html=True)
-            with stats_col2:
-                st.markdown(f"""
-                    <div class="stats-box">
-                        <h3>🚶 {st.session_state.total_distance:.2f} km</h3>
-                        <p>Total Distance</p>
-                    </div>
-                """, unsafe_allow_html=True)
-            with stats_col3:
-                st.markdown(f"""
-                    <div class="stats-box">
-                        <h3>⏰ {format_minutes(st.session_state.total_time)}</h3>
-                        <p>Total Time</p>
-                    </div>
-                """, unsafe_allow_html=True)
-
             # ============
-            # Controls BELOW the map (Get Tips / Next / Previous / Ask)
+            # Controls ABOVE the map (Get Tips / Next / Previous / Ask)
             # ============
-            st.markdown("---")
-            control_container = st.container()
-
             current_idx = st.session_state.current_stop
             stops = st.session_state.stops
             current_stop_name = stops[current_idx]
 
-            # Buttons row: Get Tips | Next Stop
+            control_container = st.container()
             with control_container:
                 bcol1, bcol2 = st.columns(2)
                 with bcol1:
@@ -730,6 +691,42 @@ def main():
                             answer = f"Sorry, couldn't retrieve an answer: {str(e)}"
                         add_chat_message('user', question)
                         add_chat_message('guide', answer)
+
+            # Now render the map below the controls
+            tour_map = create_tour_map(
+                st.session_state.G,
+                st.session_state.route_nodes,
+                st.session_state.stops_info,
+                st.session_state.city_name,
+                highlight_stop=st.session_state.current_stop
+            )
+
+            st_folium(tour_map, width=700, height=700, key=f"map_{st.session_state.current_stop}")
+
+            # Stats
+            st.markdown("---")
+            stats_col1, stats_col2, stats_col3 = st.columns(3)
+            with stats_col1:
+                st.markdown(f"""
+                    <div class="stats-box">
+                        <h3>📍 {len(st.session_state.stops)}</h3>
+                        <p>Total Stops</p>
+                    </div>
+                """, unsafe_allow_html=True)
+            with stats_col2:
+                st.markdown(f"""
+                    <div class="stats-box">
+                        <h3>🚶 {st.session_state.total_distance:.2f} km</h3>
+                        <p>Total Distance</p>
+                    </div>
+                """, unsafe_allow_html=True)
+            with stats_col3:
+                st.markdown(f"""
+                    <div class="stats-box">
+                        <h3>⏰ {format_minutes(st.session_state.total_time)}</h3>
+                        <p>Total Time</p>
+                    </div>
+                """, unsafe_allow_html=True)
 
         with chat_col:
             st.markdown("<div class='section-title'>💬 Your AI Guide</div>", unsafe_allow_html=True)
@@ -782,7 +779,7 @@ def main():
                 except Exception as e:
                     description = f"Description not available: {str(e)}"
 
-            st.markdown(f'<div style="white-space:pre-wrap;color:#343A40;">{description}</div>', unsafe_allow_html=True)
-
+            st.markdown(f'<div style="white-space:pre-wrap;color:white;">{description}</div>', unsafe_allow_html=True)
+            
 if __name__ == "__main__":
     main()
