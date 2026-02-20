@@ -1,4 +1,4 @@
-# 🌿 AI Tour Guide (Test Version)
+# 🌿 AI Tour Guide
 
 AI Tour Guide is an ongoing project showcasing a test version of an AI-powered city tour planner and conversational guide. It combines advanced path planning algorithms with large language model (LLM) integration and real-time map data to deliver personalized, time-optimized city tours. The system leverages Google Gemini models for natural language interactions and OpenStreetMap data for geographic context.
 
